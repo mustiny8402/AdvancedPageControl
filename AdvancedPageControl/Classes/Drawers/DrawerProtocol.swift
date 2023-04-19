@@ -20,23 +20,29 @@ public class AdvancedPageControlDrawerParentWithIndicator: AdvancedPageControlDr
     var indicatorBorderColor: UIColor
     var indicatorBorderWidth: CGFloat
     var indicatorColor: UIColor
+    var indicatorWidth: CGFloat
+    var alignCenter: Bool
     public init(numberOfPages: Int? = 5,
                 height: CGFloat? = 16,
                 width: CGFloat? = 16,
                 space: CGFloat? = 16,
                 raduis: CGFloat? = 8,
                 currentItem: CGFloat? = 0,
+                indicatorWidth: CGFloat? = 0,
                 indicatorColor: UIColor? = .white,
                 dotsColor: UIColor? = UIColor.lightGray,
                 isBordered: Bool = false,
                 borderColor: UIColor = .white,
                 borderWidth: CGFloat = 1,
                 indicatorBorderColor: UIColor = .white,
-                indicatorBorderWidth: CGFloat = 2)
+                indicatorBorderWidth: CGFloat = 2,
+                alignCenter: Bool = true)
     {
         self.indicatorBorderColor = indicatorBorderColor
         self.indicatorBorderWidth = indicatorBorderWidth
         self.indicatorColor = indicatorColor!
+        self.indicatorWidth = indicatorWidth!
+        self.alignCenter = alignCenter
         super.init(numberOfPages: numberOfPages,
                    height: height,
                    width: width,
@@ -72,8 +78,7 @@ public class AdvancedPageControlDrawerParent {
                 dotsColor: UIColor? = UIColor.lightGray,
                 isBordered: Bool = false,
                 borderColor: UIColor = .white,
-                borderWidth: CGFloat = 1)
-    {
+                borderWidth: CGFloat = 1) {
         self.numberOfPages = numberOfPages!
         self.space = space!
         radius = raduis!
@@ -113,5 +118,12 @@ public class AdvancedPageControlDrawerParent {
         path.stroke()
         color.setFill()
         path.fill()
+    }
+
+    func getCenteredXPositionForExtDDrawer(_ rect: CGRect, itemPos: CGFloat, dotSize: CGFloat, space: CGFloat, numberOfPages: Int, indicatorWidth: CGFloat, alignCenter: Bool) -> CGFloat {
+        let individualDotPos = (itemPos * (dotSize + space))
+        let halfViewWidth = alignCenter ? (rect.width / 2) : 0.0
+        let halfAlldotsWidthWithSpaces = alignCenter ? ((CGFloat(numberOfPages) * (dotSize + (space - 1))) / 2.0) : 0.0
+        return individualDotPos - halfAlldotsWidthWithSpaces + halfViewWidth
     }
 }
